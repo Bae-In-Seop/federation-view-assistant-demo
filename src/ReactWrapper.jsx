@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import App from './App.vue'
 
 const VueAppWrapper = () => {
@@ -9,6 +12,13 @@ const VueAppWrapper = () => {
   useEffect(() => {
     if (vueAppRef.current && !appInstance.current) {
       appInstance.current = createApp(App)
+
+      // Element Plus Icons 전역 등록
+      for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+        appInstance.current.component(key, component)
+      }
+
+      appInstance.current.use(ElementPlus)
       appInstance.current.mount(vueAppRef.current)
     }
 
